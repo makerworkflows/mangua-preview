@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mangua -- Freeze-Dried Mango Bars | One Ingredient. Pure Mango.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       MANGUA BARS -- Static Preview
+       Single-file HTML/CSS/JS
+       ============================================================ */
+
+    /* ----- RESET & VARIABLES ----- */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --color-primary: #1A5D1A;
+      --color-primary-light: #2E8B2E;
+      --color-primary-dark: #0D3B0D;
+      --color-secondary: #F5A623;
+      --color-secondary-light: #FFD700;
+      --color-tertiary: #E85D2A;
+      --color-tertiary-hover: #CC4A1E;
+      --color-neutral: #FFF8F0;
+      --color-neutral-dark: #F5EDE3;
+      --color-surface: #FFFFFF;
+      --color-text: #1A1A1A;
+      --color-text-variant: #6B6B6B;
+      --color-outline: #E0D5C7;
+      --color-footer-bg: #0D3B0D;
+      --color-footer-text: #F5EDE0;
+      --color-error: #DC2626;
+      --color-success: #16A34A;
+      --font-heading: 'Playfair Display', Georgia, serif;
+      --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --radius-full: 9999px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+      --shadow-hover: 0 8px 30px rgba(0,0,0,0.15);
+      --transition: 250ms ease;
+      --container: 1200px;
+    }
+
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--color-text);
+      background-color: var(--color-neutral);
+      overflow-x: hidden;
+    }
+    body.menu-open { overflow: hidden; }
+
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; text-decoration: none; transition: color 150ms ease; }
+    ul, ol { list-style: none; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; }
+    input { font-family: inherit; font-size: inherit; }
+
+    .container {
+      width: 100%;
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ----- ANNOUNCEMENT BAR ----- */
+    .announcement-bar {
+      background-color: var(--color-primary);
+      color: #fff;
+      padding: 11px 0;
+      text-align: center;
+      position: relative;
+      z-index: 100;
+    }
+    .announcement-bar p {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      margin: 0;
+    }
+
+    /* ----- NAVIGATION ----- */
+    .site-header {
+      background-color: var(--color-surface);
+      position: sticky;
+      top: 0;
+      z-index: 99;
+      transition: box-shadow var(--transition);
+    }
+    .site-header.is-scrolled { box-shadow: var(--shadow-sm); }
+
+    .site-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+    .site-nav__logo {
+      font-family: var(--font-heading);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--color-primary);
+      letter-spacing: -0.02em;
+    }
+    .site-nav__links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+    .site-nav__link {
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--color-text);
+      position: relative;
+      padding: 4px 0;
+    }
+    .site-nav__link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--color-tertiary);
+      transition: width var(--transition);
+    }
+    .site-nav__link:hover::after { width: 100%; }
+    .site-nav__link:hover { color: var(--color-tertiary); }
+
+    .site-nav__actions { display: flex; align-items: center; gap: 16px; }
+
+    .site-nav__cart {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      color: var(--color-text);
+      transition: color 150ms ease;
+    }
+    .site-nav__cart:hover { color: var(--color-tertiary); }
+    .site-nav__cart-count {
+      position: absolute;
+      top: 2px;
+      right: 0;
+      min-width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--color-tertiary);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 50%;
+      line-height: 1;
+    }
+
+    /* Hamburger */
+    .site-nav__hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 40px;
+      height: 40px;
+      padding: 8px;
+    }
+    .hamburger-line {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background-color: var(--color-text);
+      border-radius: 2px;
+      transition: all var(--transition);
+    }
+    .site-nav__hamburger.is-active .hamburger-line:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .site-nav__hamburger.is-active .hamburger-line:nth-child(2) { opacity: 0; }
+    .site-nav__hamburger.is-active .hamburger-line:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile Menu */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-color: var(--color-surface);
+      z-index: 98;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity var(--transition), visibility var(--transition);
+    }
+    .mobile-menu.is-open { opacity: 1; visibility: visible; }
+    .mobile-menu__inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 48px;
+      gap: 32px;
+    }
+    .mobile-menu__links {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+    .mobile-menu__link {
+      font-family: var(--font-heading);
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--color-text);
+      transition: color 150ms ease;
+    }
+    .mobile-menu__link:hover { color: var(--color-tertiary); }
+
+    /* ----- BUTTONS ----- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1;
+      padding: 16px 32px;
+      border-radius: var(--radius-full);
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all var(--transition);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .btn--primary {
+      background-color: var(--color-tertiary);
+      color: #fff;
+      border-color: var(--color-tertiary);
+    }
+    .btn--primary:hover {
+      background-color: var(--color-tertiary-hover);
+      border-color: var(--color-tertiary-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    .btn--secondary {
+      background-color: transparent;
+      color: var(--color-tertiary);
+      border-color: var(--color-tertiary);
+    }
+    .btn--secondary:hover {
+      background-color: var(--color-tertiary);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    .btn--lg { font-size: 18px; padding: 20px 40px; }
+    .btn--sm { font-size: 14px; padding: 10px 24px; }
+    .btn--full { width: 100%; }
+
+    /* ----- HERO ----- */
+    .hero {
+      background-color: var(--color-neutral);
+      padding: 80px 0 100px;
+      overflow: hidden;
+    }
+    .hero .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+    .hero__eyebrow {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-tertiary);
+      margin-bottom: 12px;
+    }
+    .hero__title {
+      font-family: var(--font-heading);
+      font-size: 64px;
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      color: var(--color-text);
+      margin-bottom: 24px;
+    }
+    .hero__subtitle {
+      font-family: var(--font-body);
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--color-text-variant);
+      margin-bottom: 40px;
+      max-width: 520px;
+    }
+    .hero__image-placeholder {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: linear-gradient(135deg, #F5A623 0%, #E8941A 50%, #D4872C 100%);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero__image-placeholder::before {
+      content: '';
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 50%;
+      top: -40px;
+      right: -40px;
+    }
+    .hero__image-placeholder::after {
+      content: '';
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 50%;
+      bottom: -20px;
+      left: -20px;
+    }
+    .hero__image-placeholder span {
+      font-family: var(--font-heading);
+      font-size: 22px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.85);
+      z-index: 1;
+      text-align: center;
+      padding: 24px;
+    }
+
+    /* ----- TRUST BADGES ----- */
+    .trust-strip {
+      background-color: var(--color-primary);
+      padding: 24px 0;
+    }
+    .trust-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+    }
+    .trust-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: rgba(255,255,255,0.15);
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 20px;
+      border-radius: var(--radius-full);
+      letter-spacing: 0.02em;
+      backdrop-filter: blur(4px);
+    }
+    .trust-badge svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+    /* ----- SECTION HEADERS ----- */
+    .section-header {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 48px;
+    }
+    .section-header__eyebrow {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-tertiary);
+      margin-bottom: 8px;
+    }
+    .section-header__title {
+      font-family: var(--font-heading);
+      font-size: 40px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+      line-height: 1.15;
+    }
+    .section-header__subtitle {
+      font-size: 17px;
+      color: var(--color-text-variant);
+      line-height: 1.7;
+    }
+
+    /* ----- PRODUCT GRID ----- */
+    .products-section {
+      background-color: var(--color-surface);
+      padding: 80px 0;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+    .product-card {
+      background-color: var(--color-surface);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: transform var(--transition), box-shadow var(--transition);
+      border: 1px solid var(--color-outline);
+      position: relative;
+    }
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+    }
+    .product-card__badge {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      background-color: var(--color-secondary);
+      color: var(--color-text);
+      z-index: 2;
+    }
+    .product-card__image {
+      aspect-ratio: 1 / 1;
+      background: linear-gradient(160deg, #F5A623 0%, #E09515 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .product-card__image::before {
+      content: '';
+      position: absolute;
+      width: 160px;
+      height: 160px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      top: -30px;
+      right: -30px;
+    }
+    .product-card__image span {
+      font-family: var(--font-heading);
+      font-size: 16px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.7);
+      z-index: 1;
+    }
+    .product-card__body { padding: 24px; }
+    .product-card__vendor {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-text-variant);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+    .product-card__title {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+    .product-card__price {
+      font-family: var(--font-body);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--color-primary);
+      margin-bottom: 16px;
+    }
+    .product-card__price small {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--color-text-variant);
+      margin-left: 6px;
+    }
+
+    /* ----- WHY MANGUA ----- */
+    .why-section {
+      background-color: var(--color-neutral);
+      padding: 100px 0;
+    }
+    .why-section .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+    .why-section__image {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .why-section__image::before {
+      content: '';
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      background: rgba(255,255,255,0.07);
+      border-radius: 50%;
+      bottom: -40px;
+      right: -40px;
+    }
+    .why-section__image span {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.6);
+      z-index: 1;
+    }
+    .why-section__content h2 {
+      font-family: var(--font-heading);
+      font-size: 40px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 24px;
+    }
+    .why-section__content p {
+      font-size: 17px;
+      line-height: 1.8;
+      color: var(--color-text-variant);
+      margin-bottom: 16px;
+    }
+    .why-section__content p:last-of-type { margin-bottom: 32px; }
+
+    /* ----- HOW IT'S MADE ----- */
+    .how-section {
+      background-color: var(--color-surface);
+      padding: 100px 0;
+    }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      margin-top: 16px;
+    }
+    .step-card { text-align: center; padding: 16px; }
+    .step-card__number {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background-color: var(--color-primary);
+      color: #fff;
+      font-family: var(--font-heading);
+      font-size: 28px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      box-shadow: 0 4px 16px rgba(26, 93, 26, 0.25);
+    }
+    .step-card__title {
+      font-family: var(--font-heading);
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+    .step-card__text {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--color-text-variant);
+      max-width: 320px;
+      margin: 0 auto;
+    }
+
+    /* ----- COMPARISON TABLE ----- */
+    .comparison-section {
+      background-color: var(--color-neutral);
+      padding: 100px 0;
+    }
+    .comparison-table-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .comparison-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-family: var(--font-body);
+      font-size: 15px;
+      background-color: var(--color-surface);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+    }
+    .comparison-table thead th {
+      font-family: var(--font-heading);
+      font-size: 16px;
+      font-weight: 600;
+      padding: 20px 24px;
+      text-align: left;
+      border-bottom: 2px solid var(--color-outline);
+      color: var(--color-text);
+      background-color: var(--color-surface);
+    }
+    .comparison-table thead th:first-child { width: 30%; }
+    .comparison-table thead th.highlight {
+      background-color: var(--color-primary);
+      color: #fff;
+    }
+    .comparison-table thead th.other { color: var(--color-text-variant); }
+    .comparison-table tbody td {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--color-outline);
+      vertical-align: middle;
+    }
+    .comparison-table tbody tr:last-child td { border-bottom: none; }
+    .comparison-table tbody tr:hover { background-color: rgba(26,93,26,0.02); }
+    .comparison-table tbody td:first-child {
+      font-weight: 600;
+      color: var(--color-text);
+    }
+    .comparison-table tbody td.highlight {
+      background-color: rgba(26,93,26,0.04);
+      font-weight: 600;
+      color: var(--color-primary);
+    }
+    .comparison-table tbody td.other { color: var(--color-text-variant); }
+    .check {
+      color: var(--color-success);
+      font-weight: 700;
+      font-size: 20px;
+    }
+    .cross {
+      color: var(--color-error);
+      font-weight: 700;
+      font-size: 20px;
+    }
+
+    /* ----- EMAIL CAPTURE ----- */
+    .email-section {
+      background-color: var(--color-neutral);
+      padding: 80px 0 100px;
+    }
+    .email-section__inner {
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .email-section__title {
+      font-family: var(--font-heading);
+      font-size: 40px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+      line-height: 1.15;
+    }
+    .email-section__subtitle {
+      font-size: 17px;
+      color: var(--color-text-variant);
+      margin-bottom: 32px;
+      line-height: 1.7;
+    }
+    .email-form {
+      display: flex;
+      max-width: 520px;
+      margin: 0 auto;
+      gap: 8px;
+    }
+    .email-form__input {
+      flex: 1;
+      padding: 16px 24px;
+      border: 2px solid var(--color-outline);
+      border-radius: var(--radius-full);
+      background-color: var(--color-surface);
+      color: var(--color-text);
+      font-size: 15px;
+      outline: none;
+      transition: border-color 150ms ease;
+    }
+    .email-form__input::placeholder { color: #B0A89E; }
+    .email-form__input:focus { border-color: var(--color-primary); }
+    .email-form__submit {
+      padding: 16px 28px;
+      border-radius: var(--radius-full);
+      background-color: var(--color-tertiary);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all var(--transition);
+    }
+    .email-form__submit:hover {
+      background-color: var(--color-tertiary-hover);
+      transform: translateY(-1px);
+    }
+    .email-form__disclaimer {
+      font-size: 13px;
+      color: var(--color-text-variant);
+      margin-top: 16px;
+    }
+
+    /* ----- FOOTER ----- */
+    .site-footer {
+      background-color: var(--color-footer-bg);
+      color: var(--color-footer-text);
+      padding: 80px 0 40px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 40px;
+      margin-bottom: 64px;
+    }
+    .footer-col__title {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 24px;
+    }
+    .footer-col__list li { margin-bottom: 10px; }
+    .footer-col__list a {
+      font-size: 14px;
+      color: var(--color-footer-text);
+      opacity: 0.75;
+      transition: opacity 150ms ease, color 150ms ease;
+    }
+    .footer-col__list a:hover { opacity: 1; color: var(--color-secondary); }
+    .footer-col__social {
+      display: flex;
+      gap: 12px;
+    }
+    .footer-col__social a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background-color: rgba(255,255,255,0.1);
+      color: var(--color-footer-text);
+      transition: all var(--transition);
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .footer-col__social a:hover {
+      background-color: var(--color-secondary);
+      color: var(--color-text);
+      transform: translateY(-2px);
+    }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.12);
+      padding-top: 32px;
+      text-align: center;
+    }
+    .footer-bottom__origin {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-secondary);
+      margin-bottom: 8px;
+      letter-spacing: 0.02em;
+    }
+    .footer-bottom__copyright {
+      font-size: 13px;
+      opacity: 0.5;
+    }
+
+    /* ----- DIVIDER LINE ----- */
+    .section-divider {
+      width: 80px;
+      height: 3px;
+      background: var(--color-tertiary);
+      border: none;
+      border-radius: 2px;
+      margin: 0 auto 32px;
+    }
+
+    /* ============================================================
+       RESPONSIVE -- TABLET
+       ============================================================ */
+    @media (max-width: 1024px) {
+      .hero__title { font-size: 48px; }
+      .hero .container { gap: 40px; }
+      .product-grid { grid-template-columns: repeat(2, 1fr); }
+      .section-header__title { font-size: 32px; }
+      .why-section__content h2 { font-size: 32px; }
+      .email-section__title { font-size: 32px; }
+      .footer-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+    }
+
+    /* ============================================================
+       RESPONSIVE -- MOBILE
+       ============================================================ */
+    @media (max-width: 768px) {
+      .container { padding: 0 16px; }
+
+      /* Nav */
+      .site-nav__links { display: none; }
+      .site-nav__hamburger { display: flex; }
+      .mobile-menu { display: block; }
+      .site-nav { height: 60px; }
+
+      /* Hero */
+      .hero { padding: 48px 0 64px; }
+      .hero .container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .hero__title { font-size: 38px; }
+      .hero__subtitle { font-size: 16px; }
+      .hero__image-placeholder { max-width: 400px; margin: 0 auto; }
+
+      /* Trust */
+      .trust-badges { gap: 8px; }
+      .trust-badge { font-size: 11px; padding: 6px 14px; }
+
+      /* Products */
+      .products-section { padding: 60px 0; }
+      .product-grid { grid-template-columns: 1fr; gap: 24px; max-width: 400px; margin: 0 auto; }
+
+      /* Why */
+      .why-section { padding: 60px 0; }
+      .why-section .container { grid-template-columns: 1fr; gap: 32px; }
+      .why-section__image { max-width: 400px; margin: 0 auto; }
+      .why-section__content h2 { font-size: 30px; }
+
+      /* How */
+      .how-section { padding: 60px 0; }
+      .steps-grid { grid-template-columns: 1fr; gap: 32px; }
+
+      /* Comparison */
+      .comparison-section { padding: 60px 0; }
+
+      /* Email */
+      .email-section { padding: 60px 0; }
+      .email-section__title { font-size: 30px; }
+      .email-form { flex-direction: column; }
+      .email-form__input, .email-form__submit { width: 100%; }
+
+      /* Footer */
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+
+      .section-header__title { font-size: 28px; }
+      .step-card__title { font-size: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero__title { font-size: 32px; }
+      .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+      .btn { padding: 14px 24px; font-size: 14px; }
+      .btn--lg { padding: 16px 32px; font-size: 16px; }
+      .announcement-bar p { font-size: 11px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== ANNOUNCEMENT BAR ========== -->
+  <div class="announcement-bar">
+    <div class="container">
+      <p>Free shipping on orders over $50 | One ingredient. Zero compromise.</p>
+    </div>
+  </div>
+
+  <!-- ========== NAVIGATION ========== -->
+  <header class="site-header" id="site-header">
+    <div class="container">
+      <nav class="site-nav">
+        <a href="#" class="site-nav__logo">Mangua</a>
+
+        <div class="site-nav__links">
+          <a href="#products" class="site-nav__link">Shop</a>
+          <a href="#why" class="site-nav__link">About</a>
+          <a href="#comparison" class="site-nav__link">FAQ</a>
+          <a href="#email" class="site-nav__link">Contact</a>
+        </div>
+
+        <div class="site-nav__actions">
+          <a href="#" class="site-nav__cart" aria-label="Cart">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="9" cy="21" r="1"/>
+              <circle cx="20" cy="21" r="1"/>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+            </svg>
+            <span class="site-nav__cart-count">0</span>
+          </a>
+          <button class="site-nav__hamburger" id="hamburger-btn" aria-label="Menu">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobile-menu">
+    <div class="mobile-menu__inner">
+      <div class="mobile-menu__links">
+        <a href="#products" class="mobile-menu__link" onclick="closeMobileMenu()">Shop</a>
+        <a href="#why" class="mobile-menu__link" onclick="closeMobileMenu()">About</a>
+        <a href="#comparison" class="mobile-menu__link" onclick="closeMobileMenu()">FAQ</a>
+        <a href="#email" class="mobile-menu__link" onclick="closeMobileMenu()">Contact</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== HERO ========== -->
+  <section class="hero" id="hero">
+    <div class="container">
+      <div class="hero__content">
+        <p class="hero__eyebrow">100% Mexican Mango</p>
+        <h1 class="hero__title">One Ingredient.<br>Pure Mango.<br>Nothing Else.</h1>
+        <p class="hero__subtitle">Freeze-dried Mexican mango bars with zero added sugar, zero preservatives, and zero filler. Just fruit that crunches.</p>
+        <a href="#products" class="btn btn--primary btn--lg">Shop Now</a>
+      </div>
+      <div class="hero__image-placeholder">
+        <span>Product Image</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== TRUST BADGES ========== -->
+  <section class="trust-strip">
+    <div class="container">
+      <div class="trust-badges">
+        <span class="trust-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Single Ingredient
+        </span>
+        <span class="trust-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          No Added Sugar
+        </span>
+        <span class="trust-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Non-GMO
+        </span>
+        <span class="trust-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Gluten-Free
+        </span>
+        <span class="trust-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Vegan
+        </span>
+        <span class="trust-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Mexican Mango
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== PRODUCT GRID ========== -->
+  <section class="products-section" id="products">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-header__eyebrow">Our Products</p>
+        <h2 class="section-header__title">Real Fruit. Real Simple.</h2>
+        <p class="section-header__subtitle">Every bar is made from one ingredient: 100% freeze-dried Mexican mango. Pick your pack size.</p>
+      </div>
+      <div class="product-grid">
+
+        <!-- Card 1 -->
+        <div class="product-card">
+          <div class="product-card__image"><span>Product Image</span></div>
+          <div class="product-card__body">
+            <p class="product-card__vendor">Mangua</p>
+            <h3 class="product-card__title">Freeze-Dried Mango Bars -- 20 Pack</h3>
+            <p class="product-card__price">$25.80 <small>$1.29/bar</small></p>
+            <button class="btn btn--primary btn--full">Add to Cart</button>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="product-card">
+          <div class="product-card__image"><span>Product Image</span></div>
+          <div class="product-card__body">
+            <p class="product-card__vendor">Mangua</p>
+            <h3 class="product-card__title">Freeze-Dried Mango Bars -- 30 Pack</h3>
+            <p class="product-card__price">$38.70 <small>$1.29/bar</small></p>
+            <button class="btn btn--primary btn--full">Add to Cart</button>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="product-card">
+          <span class="product-card__badge">Best Value</span>
+          <div class="product-card__image"><span>Product Image</span></div>
+          <div class="product-card__body">
+            <p class="product-card__vendor">Mangua</p>
+            <h3 class="product-card__title">Freeze-Dried Mango Bars -- 60 Pack</h3>
+            <p class="product-card__price">$77.40 <small>$1.29/bar</small></p>
+            <button class="btn btn--primary btn--full">Add to Cart</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== WHY MANGUA ========== -->
+  <section class="why-section" id="why">
+    <div class="container">
+      <div class="why-section__image">
+        <span>Lifestyle Image</span>
+      </div>
+      <div class="why-section__content">
+        <p class="section-header__eyebrow" style="text-align:left;">Why Mangua?</p>
+        <h2>Not a Gummy.<br>Not a Leather.<br>Not a Chip.</h2>
+        <p>Most "fruit snacks" are held together with added sugar, citric acid, and ingredients you can't pronounce. Mangua is different.</p>
+        <p>We take ripe Mexican mangoes and freeze-dry them into a crunchy, ready-to-eat bar. One ingredient. That's it. No sugar added. No concentrates. No preservatives. No sticky fingers.</p>
+        <p>The result is a light, crispy bar with the full flavor of fresh mango -- the kind of snack you'd actually feel good putting in a lunchbox.</p>
+        <a href="#products" class="btn btn--secondary">Learn More</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== HOW IT'S MADE ========== -->
+  <section class="how-section" id="how">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-header__eyebrow">The Process</p>
+        <h2 class="section-header__title">From Mango Tree to Your Table</h2>
+        <p class="section-header__subtitle">Three steps. No shortcuts. No compromises.</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-card__number">1</div>
+          <h3 class="step-card__title">Harvested Ripe</h3>
+          <p class="step-card__text">Our mangoes are picked at peak sweetness from farms in Mexico -- not harvested early and ripened in a warehouse.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-card__number">2</div>
+          <h3 class="step-card__title">Freeze-Dried Fresh</h3>
+          <p class="step-card__text">Low-temperature freeze-drying removes moisture while locking in the flavor, color, and nutrients of fresh mango. No heat. No cooking. No nutrient loss.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-card__number">3</div>
+          <h3 class="step-card__title">Pressed into a Bar</h3>
+          <p class="step-card__text">The freeze-dried mango is formed into a structured, crunchy bar you can eat anywhere -- no bowl, no spoon, no mess.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== COMPARISON TABLE ========== -->
+  <section class="comparison-section" id="comparison">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-header__eyebrow">The Difference</p>
+        <h2 class="section-header__title">Read the Label. Then Read Ours.</h2>
+      </div>
+      <div class="comparison-table-wrapper">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th class="highlight">Mangua</th>
+              <th class="other">Typical "Fruit Snack"</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Ingredients</td>
+              <td class="highlight"><span class="check">&#10003;</span>&ensp;1 (mango)</td>
+              <td class="other"><span class="cross">&#10007;</span>&ensp;8-15</td>
+            </tr>
+            <tr>
+              <td>Added Sugar</td>
+              <td class="highlight"><span class="check">&#10003;</span>&ensp;0g</td>
+              <td class="other"><span class="cross">&#10007;</span>&ensp;6-12g</td>
+            </tr>
+            <tr>
+              <td>Preservatives</td>
+              <td class="highlight"><span class="check">&#10003;</span>&ensp;None</td>
+              <td class="other"><span class="cross">&#10007;</span>&ensp;Citric acid, sodium benzoate</td>
+            </tr>
+            <tr>
+              <td>Texture</td>
+              <td class="highlight"><span class="check">&#10003;</span>&ensp;Crunchy bar</td>
+              <td class="other"><span class="cross">&#10007;</span>&ensp;Gummy, sticky</td>
+            </tr>
+            <tr>
+              <td>Teeth-friendly</td>
+              <td class="highlight"><span class="check">&#10003;</span>&ensp;Yes</td>
+              <td class="other"><span class="cross">&#10007;</span>&ensp;No</td>
+            </tr>
+            <tr>
+              <td>Real fruit?</td>
+              <td class="highlight"><span class="check">&#10003;</span>&ensp;100%</td>
+              <td class="other"><span class="cross">&#10007;</span>&ensp;"Made with real fruit" (plus everything else)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== EMAIL CAPTURE ========== -->
+  <section class="email-section" id="email">
+    <div class="container">
+      <div class="email-section__inner">
+        <hr class="section-divider">
+        <h2 class="email-section__title">Join the Mangua Family</h2>
+        <p class="email-section__subtitle">Get 10% off your first order and be the first to know about new flavors, bundles, and seasonal drops.</p>
+        <form class="email-form" onsubmit="event.preventDefault();">
+          <input type="email" class="email-form__input" placeholder="Your email address" required>
+          <button type="submit" class="email-form__submit">Get 10% Off</button>
+        </form>
+        <p class="email-form__disclaimer">No spam. Unsubscribe anytime.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+
+        <div class="footer-col">
+          <h4 class="footer-col__title">Shop</h4>
+          <ul class="footer-col__list">
+            <li><a href="#">All Products</a></li>
+            <li><a href="#">20 Pack</a></li>
+            <li><a href="#">30 Pack</a></li>
+            <li><a href="#">60 Pack</a></li>
+            <li><a href="#">Bundles</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-col__title">Company</h4>
+          <ul class="footer-col__list">
+            <li><a href="#">Our Story</a></li>
+            <li><a href="#">How It's Made</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Wholesale</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-col__title">Support</h4>
+          <ul class="footer-col__list">
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Shipping & Returns</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-col__title">Connect</h4>
+          <div class="footer-col__social">
+            <a href="#" aria-label="Instagram">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="#" aria-label="Facebook">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            <a href="#" aria-label="TikTok">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.88-2.89 2.89 2.89 0 0 1 2.88-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 0 0-.79-.05A6.34 6.34 0 0 0 3.15 15a6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V8.87a8.28 8.28 0 0 0 4.76 1.5V6.92a4.84 4.84 0 0 1-1-.23z"/></svg>
+            </a>
+          </div>
+          <ul class="footer-col__list" style="margin-top:24px;">
+            <li><a href="#">hello@manguabars.com</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p class="footer-bottom__origin">Produced in Mexico. Distributed from Pharr, TX.</p>
+        <p class="footer-bottom__copyright">&copy; 2026 Mangua. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== JAVASCRIPT ========== -->
+  <script>
+    // Sticky header shadow on scroll
+    const header = document.getElementById('site-header');
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 10) {
+        header.classList.add('is-scrolled');
+      } else {
+        header.classList.remove('is-scrolled');
+      }
+    });
+
+    // Mobile menu toggle
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    hamburgerBtn.addEventListener('click', function() {
+      const isOpen = mobileMenu.classList.contains('is-open');
+      if (isOpen) {
+        closeMobileMenu();
+      } else {
+        mobileMenu.classList.add('is-open');
+        hamburgerBtn.classList.add('is-active');
+        document.body.classList.add('menu-open');
+      }
+    });
+
+    function closeMobileMenu() {
+      mobileMenu.classList.remove('is-open');
+      hamburgerBtn.classList.remove('is-active');
+      document.body.classList.remove('menu-open');
+    }
+  </script>
+</body>
+</html>
